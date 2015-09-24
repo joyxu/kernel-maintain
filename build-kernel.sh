@@ -104,7 +104,7 @@ function generate_dtb() {
 		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  ./hisilicon/hi6220-hikey.dtb"
 		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  ./hisilicon/hip05-d02.dtb"
 	else
-		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  ./hisilicon/hip04-d01.dtb"
+		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  hip04-d01.dtb"
 	fi
 }
 
