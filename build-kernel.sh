@@ -32,7 +32,7 @@
 ###########################################################################
 #############################################################################
 
-shift      ## Clip the first value of the $@, the rest are the options. 
+#shift      ## Clip the first value of the $@, the rest are the options. 
 declare    CMD_OUTPUT=""
 declare    TMP_OUTPUT="/tmp/_${0##*/}_$$_$(date +%Y%m%d%H%M%S%N)" 
 declare -r SPIN_DELAY="0.1"
@@ -117,13 +117,21 @@ function build_kernel() {
 	generate_dtb $1 $2 $3 $4
 } 
 
-#arm64
-build_kernel arm64 aarch64-linux-gnu- $(pwd)/../linux-next.build  defconfig
-build_kernel arm64 aarch64-linux-gnu- $(pwd)/../linux-next.build  allmodconfig
-
-#arm32
-build_kernel arm arm-linux-gnueabihf- $(pwd)/../linux-next.build hisi_defconfig
-build_kernel arm arm-linux-gnueabihf- $(pwd)/../linux-next.build multi_v7_defconfig
+if [ "$1" = "arm64" ]; then 
+	#arm64
+	rm -rf $(pwd)/../linux-next.build 
+	build_kernel arm64 aarch64-linux-gnu- $(pwd)/../linux-next.build  defconfig
+	
+	rm -rf $(pwd)/../linux-next.build 
+	build_kernel arm64 aarch64-linux-gnu- $(pwd)/../linux-next.build  allmodconfig
+else
+	#arm32
+	rm -rf $(pwd)/../linux-next.build 
+	build_kernel arm arm-linux-gnueabihf- $(pwd)/../linux-next.build hisi_defconfig
+	
+	rm -rf $(pwd)/../linux-next.build 
+	build_kernel arm arm-linux-gnueabihf- $(pwd)/../linux-next.build multi_v7_defconfig
+fi
 
 exit 0 
 
