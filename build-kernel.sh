@@ -112,9 +112,13 @@ function build_kernel() {
 	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  $4"
 	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64"
 	generate_dtb $1 $2 $3 $4
+}
+
+
+function checkdtb() {
 	TIMESTAMP=`date "+%Y%m%d-%H%M%S"`
 	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64 dtbs_check | tee $3/../dtb_check_$TIMESTAMP.log" 
-} 
+}
 
 if [ "$1" = "arm64" ]; then 
 	#arm64
@@ -123,6 +127,7 @@ if [ "$1" = "arm64" ]; then
 	
 	rm -rf $(pwd)/../linux-next.build 
 	build_kernel arm64 aarch64-linux-gnu- $(pwd)/../linux-next.build  allmodconfig
+	checkdtb arm64 aarch64-linux-gnu- $(pwd)/../linux-next.build
 else
 	#arm32
 	rm -rf $(pwd)/../linux-next.build 
@@ -130,6 +135,7 @@ else
 	
 	rm -rf $(pwd)/../linux-next.build 
 	build_kernel arm arm-linux-gnueabihf- $(pwd)/../linux-next.build multi_v7_defconfig
+	checkdtb arm arm-linux-gnueabihf- $(pwd)/../linux-next.build
 fi
 
 exit 0 
