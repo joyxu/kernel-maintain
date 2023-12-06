@@ -101,8 +101,8 @@ function run_cmd() {
 
 function generate_dtb() {
 	if [ $1 = "arm64" ]; then 
-		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  ./hisilicon/hi6220-hikey.dtb"
-		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  ./hisilicon/hip05-d02.dtb"
+		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  M=arch/arm64/boot/dts/hisilicon"
+		#run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  ./hisilicon/hip05-d02.dtb"
 	else
 		run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  dtbs"
 	fi
@@ -113,7 +113,7 @@ function build_kernel() {
 	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64"
 	generate_dtb $1 $2 $3 $4
 	TIMESTAMP=`date "+%Y%m%d-%H%M%S"`
-	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64 dtbs_check | tee $3/dtb_check_$TIMESTAMP.log" 
+	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64 dtbs_check | tee $3/../dtb_check_$TIMESTAMP.log" 
 } 
 
 if [ "$1" = "arm64" ]; then 
