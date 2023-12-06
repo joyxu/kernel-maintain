@@ -120,6 +120,8 @@ function checkdtb() {
 	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64 dtbs_check | tee $3/../dtb_check_$TIMESTAMP.log" 
 }
 
+pip3 install -U dtschema
+
 if [ "$1" = "arm64" ]; then 
 	#arm64
 	rm -rf $(pwd)/../linux-next.build 
