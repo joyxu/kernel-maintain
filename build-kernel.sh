@@ -117,7 +117,7 @@ function build_kernel() {
 
 function checkdtb() {
 	TIMESTAMP=`date "+%Y%m%d-%H%M%S"`
-	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64 dtbs_check > (tee $3/../dtb_check_$TIMESTAMP.log) 2> >(tee $3/../dtb_check_$TIMESTAMP.log >&2)" 
+	run_cmd "make ARCH=$1 CROSS_COMPILE=$2 O=$3  -j64 dtbs_check > >(tee $3/../dtb_check_$TIMESTAMP.log) 2> >(tee $3/../dtb_check_$TIMESTAMP.log >&2)" 
 }
 
 pip3 install -U dtschema
